@@ -9,6 +9,8 @@ I'm a master's student at the Hong Kong University of Science and Technology (Gu
 - Market Microstructure
 - LLM Application in Finance
 
+I'm happy to connect with others who share similar research interests.
+
 📫 Email: [kzhu597@connect.hkust-gz.edu.cn](mailto\:kzhu597@connect.hkust-gz.edu.cn)
 
 <!--
