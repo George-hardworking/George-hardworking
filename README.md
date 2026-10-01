@@ -1,18 +1,15 @@
-## Hi there, I'm Kaibiao ZHU 👋
-
-
-### Hi, I'm Kaibiao ZHU 👋
+### Hi there, I'm Kaibiao ZHU 👋
 
 I'm a master's student at the Hong Kong University of Science and Technology (Guangzhou).
 
-My current research focuses on **Empirical Asset Pricing** and **Machine Learning for Finance**. I'm also interested in **market microstructure**.
+🔎 My research interests include:
 
-#### Contact
+- Empirical Asset Pricing
+- Machine Learning for Finance
+- Market Microstructure
+- LLM Application in Finance
 
-Email: [kzhu597@connect.hkust-gz.edu.cn](mailto:kzhu597@connect.hkust-gz.edu.cn)
-
-
-
+📫 Email: [kzhu597@connect.hkust-gz.edu.cn](mailto\:kzhu597@connect.hkust-gz.edu.cn)
 
 <!--
 **George-hardworking/George-hardworking** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
