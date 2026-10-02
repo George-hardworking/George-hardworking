@@ -11,7 +11,7 @@ I'm a master's student at the Hong Kong University of Science and Technology (Gu
 
 I'm happy to connect with others who share similar research interests.
 
-📫 Email: [kzhu597@connect.hkust-gz.edu.cn](mailto\:kzhu597@connect.hkust-gz.edu.cn)
+📫 Email: [Click to contact me](mailto\:kzhu597@connect.hkust-gz.edu.cn)
 
 <!--
 **George-hardworking/George-hardworking** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
