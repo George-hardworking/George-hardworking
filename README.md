@@ -33,35 +33,35 @@ Here are some ideas to get you started:
 
 ## 🌐 Languages — Style Gallery
 
-Automatically generated from my public repositories. These cards compare different views of the same language statistics (up to 20 languages); percentages describe code size, not proficiency.
+Automatically generated from all my owned public and authorized private repositories, including forks. All detected languages are shown, with no custom language or file exclusions. Current metric: bytes.
 
 ### 1. Language list & progress bars
 
-![Language list](https://github-stats-extended.vercel.app/api/top-langs/?username=George-hardworking&langs_count=20&card_width=500)
+![Language list](./profile/bytes-normal.svg)
 
 ### 2. Compact language bar
 
-![Compact languages](https://github-stats-extended.vercel.app/api/top-langs/?username=George-hardworking&langs_count=20&layout=compact&card_width=500)
+![Compact languages](./profile/bytes-compact.svg)
 
 ### 3. Donut chart
 
-![Donut languages](https://github-stats-extended.vercel.app/api/top-langs/?username=George-hardworking&langs_count=20&layout=donut&card_width=500)
+![Donut languages](./profile/bytes-donut.svg)
 
 ### 4. Vertical donut chart
 
-![Vertical donut languages](https://github-stats-extended.vercel.app/api/top-langs/?username=George-hardworking&langs_count=20&layout=donut-vertical&card_width=500)
+![Vertical donut languages](./profile/bytes-donut-vertical.svg)
 
 ### 5. Pie chart
 
-![Pie languages](https://github-stats-extended.vercel.app/api/top-langs/?username=George-hardworking&langs_count=20&layout=pie&card_width=500)
+![Pie languages](./profile/bytes-pie.svg)
 
 ### 6. Minimal language names
 
-![Language names](https://github-stats-extended.vercel.app/api/top-langs/?username=George-hardworking&langs_count=20&hide_progress=true&card_width=500)
+![Language names](./profile/bytes-names.svg)
 
-### 7. Language sizes in bytes
+### 7. Language totals (bytes)
 
-![Language sizes](https://github-stats-extended.vercel.app/api/top-langs/?username=George-hardworking&langs_count=20&stats_format=bytes&card_width=500)
+![Language sizes](./profile/bytes-sizes.svg)
 
 ### 8. Icon badge styles (static examples)
 
@@ -83,7 +83,7 @@ These badges are manually specified examples, rather than an automatically calcu
 <!-- all-repository-languages -->
 ## Languages Across Public & Private Repositories
 
-All detected languages in my own public and authorized private repositories, excluding forks. Updated daily; percentages are based on GitHub language bytes. Repository names and source code are not published.
+All detected languages in my own public and authorized private repositories, including forks. No custom exclusions. Updated daily; the active metric is shown on the cards. Repository names and source code are not published.
 
 ![All repository languages](./profile/all-languages.svg)
 

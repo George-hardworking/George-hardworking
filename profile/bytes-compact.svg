@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="522" viewBox="0 0 640 522" role="img" aria-label="All repository languages">
+<style>text{font-family:Arial,sans-serif;fill:#24292f}</style>
+<rect x=".5" y=".5" width="639" height="521" rx="10" fill="white" stroke="#d0d7de"/>
+<text x="24" y="34" font-size="20">All Repository Languages</text>
+<text x="24" y="58" font-size="12">Public + private · All owned repositories including forks · bytes</text>
+<rect x="24" y="80" width="583.328141908164" height="15" fill="#e34c26"/>
+<rect x="607.328141908164" y="80" width="4.001884493463933" height="15" fill="#DA5B0B"/>
+<rect x="611.330026401628" y="80" width="0.5445578842771175" height="15" fill="#3572A5"/>
+<rect x="611.874584285905" y="80" width="0.03495186414682672" height="15" fill="#89e051"/>
+<rect x="611.9095361500518" y="80" width="0.03458347023254063" height="15" fill="#f59e0b"/>
+<rect x="611.9441196202844" y="80" width="0.029820639122955354" height="15" fill="#f1e05a"/>
+<rect x="611.9739402594073" y="80" width="0.025154821781282866" height="15" fill="#3D6117"/>
+<rect x="611.9990950811886" y="80" width="0.000445802699569136" height="15" fill="#ec4899"/>
+<rect x="611.9995408838881" y="80" width="0.00018666864549750993" height="15" fill="#10b981"/>
+<rect x="611.9997275525336" y="80" width="0.00016841185651565897" height="15" fill="#f59e0b"/>
+<rect x="611.9998959643901" y="80" width="9.471060376430989e-05" height="15" fill="#563d7c"/>
+<rect x="611.9999906749939" y="80" width="9.32500606457618e-06" height="15" fill="#06b6d4"/>
+<text x="24" y="124" font-size="14">HTML</text>
+<text x="500" y="124" font-size="12">99.21%</text>
+<text x="24" y="154" font-size="14">Jupyter Notebook</text>
+<text x="500" y="154" font-size="12">0.68%</text>
+<text x="24" y="184" font-size="14">Python</text>
+<text x="500" y="184" font-size="12">0.09%</text>
+<text x="24" y="214" font-size="14">Shell</text>
+<text x="500" y="214" font-size="12">&lt;0.01%</text>
+<text x="24" y="244" font-size="14">Swift</text>
+<text x="500" y="244" font-size="12">&lt;0.01%</text>
+<text x="24" y="274" font-size="14">JavaScript</text>
+<text x="500" y="274" font-size="12">&lt;0.01%</text>
+<text x="24" y="304" font-size="14">TeX</text>
+<text x="500" y="304" font-size="12">&lt;0.01%</text>
+<text x="24" y="334" font-size="14">MATLAB</text>
+<text x="500" y="334" font-size="12">&lt;0.01%</text>
+<text x="24" y="364" font-size="14">Makefile</text>
+<text x="500" y="364" font-size="12">&lt;0.01%</text>
+<text x="24" y="394" font-size="14">Jinja</text>
+<text x="500" y="394" font-size="12">&lt;0.01%</text>
+<text x="24" y="424" font-size="14">CSS</text>
+<text x="500" y="424" font-size="12">&lt;0.01%</text>
+<text x="24" y="454" font-size="14">Perl</text>
+<text x="500" y="454" font-size="12">&lt;0.01%</text>
+<text x="24" y="508" font-size="11">Updated 2026-10-11 12:55 UTC</text>
+</svg>
