@@ -1,0 +1,97 @@
+name: Update all repository languages
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-languages
+  cancel-in-progress: false
+
+jobs:
+  languages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Aggregate language metadata
+        env:
+          LANGUAGE_STATS_TOKEN: ${{ secrets.LANGUAGE_STATS_TOKEN }}
+          PROFILE_OWNER: ${{ github.repository_owner }}
+        run: |
+          python3 - <<'PY'
+          import collections, datetime, html, json, os, pathlib, urllib.request, urllib.error
+          token = os.environ['LANGUAGE_STATS_TOKEN']
+          if not token:
+              raise SystemExit('Add the LANGUAGE_STATS_TOKEN repository secret first.')
+          def api(path):
+              request = urllib.request.Request('https://api.github.com' + path, headers={
+                  'Authorization': 'Bearer ' + token,
+                  'Accept': 'application/vnd.github+json',
+                  'X-GitHub-Api-Version': '2022-11-28'})
+              try:
+                  with urllib.request.urlopen(request, timeout=60) as response:
+                      return json.load(response)
+              except urllib.error.HTTPError as error:
+                  raise SystemExit('GitHub metadata request failed (HTTP %s); check token access.' % error.code) from None
+          owner = os.environ['PROFILE_OWNER'].lower()
+          repositories = []
+          page = 1
+          while True:
+              batch = api('/user/repos?affiliation=owner&visibility=all&per_page=100&page=' + str(page))
+              repositories.extend(r for r in batch if r['owner']['login'].lower() == owner and not r['fork'])
+              if len(batch) < 100:
+                  break
+              page += 1
+          if not any(r['private'] for r in repositories):
+              raise SystemExit('No private repositories visible. Check the fine-grained token repository selection.')
+          totals = collections.Counter()
+          for repository in repositories:
+              totals.update(api('/repos/' + repository['full_name'] + '/languages'))
+          rows = sorted(((name, size) for name, size in totals.items() if size > 0), key=lambda row: (-row[1], row[0]))
+          total = sum(size for name, size in rows)
+          if not total:
+              raise SystemExit('No language data found.')
+          stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+          colors = {'Python': '#3572A5', 'Jupyter Notebook': '#DA5B0B', 'JavaScript': '#f1e05a', 'TypeScript': '#3178c6', 'TeX': '#3D6117', 'HTML': '#e34c26', 'CSS': '#563d7c', 'Shell': '#89e051', 'R': '#198CE7'}
+          palette = ['#6366f1', '#06b6d4', '#ec4899', '#10b981', '#f59e0b']
+          height = 112 + len(rows) * 52
+          svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="640" height="{height}" viewBox="0 0 640 {height}" role="img" aria-label="Languages across public and private repositories">',
+                 '<style>text{font-family:Arial,sans-serif;fill:#24292f}.muted{fill:#57606a}</style>',
+                 f'<rect width="639" height="{height-1}" x="0.5" y="0.5" rx="10" fill="#ffffff" stroke="#d0d7de"/>',
+                 '<text x="24" y="34" font-size="20" font-weight="bold">All Repository Languages</text>',
+                 '<text x="24" y="58" font-size="12" class="muted">Public + authorized private repositories · Forks excluded · Code bytes</text>']
+          for i, (name, size) in enumerate(rows):
+              y = 90 + i * 52
+              percent = 100 * size / total
+              label = f'{percent:.2f}%' if percent >= 0.01 else '&lt;0.01%'
+              color = colors.get(name, palette[i % len(palette)])
+              svg.extend([f'<text x="24" y="{y}" font-size="14">{html.escape(name)}</text>',
+                          f'<text x="612" y="{y}" text-anchor="end" font-size="13">{label}</text>',
+                          f'<rect x="24" y="{y+10}" width="588" height="9" rx="4" fill="#eaeef2"/>',
+                          f'<rect x="24" y="{y+10}" width="{max(1, 588*percent/100):.3f}" height="9" rx="4" fill="{color}"/>'])
+          svg.extend([f'<text x="24" y="{height-18}" font-size="11" class="muted">Updated {stamp}</text>', '</svg>'])
+          directory = pathlib.Path('profile')
+          directory.mkdir(exist_ok=True)
+          (directory / 'all-languages.svg').write_text('\n'.join(svg) + '\n', encoding='utf-8')
+          report = {'updated_utc': stamp, 'scope': 'Owned public and authorized private repositories; forks excluded', 'languages': [{'language': name, 'bytes': size, 'percent': 100*size/total} for name, size in rows]}
+          (directory / 'all-languages.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+          readme = pathlib.Path('README.md')
+          original = readme.read_bytes()
+          marker = b'<!-- all-repository-languages -->'
+          if marker not in original:
+              section = '\n\n<!-- all-repository-languages -->\n## Languages Across Public & Private Repositories\n\nAll detected languages in my own public and authorized private repositories, excluding forks. Updated daily; percentages are based on GitHub language bytes. Repository names and source code are not published.\n\n![All repository languages](./profile/all-languages.svg)\n\n[Detailed language totals](./profile/all-languages.json)\n'
+              readme.write_bytes(original + section.encode('utf-8'))
+          print('Generated aggregate language statistics successfully.')
+          PY
+      - name: Save aggregate images
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add profile/all-languages.svg profile/all-languages.json README.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Update public and private language statistics'
+          git push
