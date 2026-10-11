@@ -1,156 +1,20 @@
-name: Update all repository languages
-
+name: Restore original profile
 on:
   workflow_dispatch:
-    inputs:
-      metric:
-        description: Statistic to calculate
-        type: choice
-        options: [bytes, lines]
-        default: bytes
-  schedule:
-    - cron: '0 12 * * *'
 permissions:
   contents: write
-concurrency:
-  group: profile-languages
-  cancel-in-progress: false
 jobs:
-  languages:
+  restore:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install code-line counter
-        run: sudo apt-get update -qq && sudo apt-get install -y cloc
-      - name: Generate all language cards
-        env:
-          LANGUAGE_STATS_TOKEN: ${{ secrets.LANGUAGE_STATS_TOKEN }}
-          PROFILE_OWNER: ${{ github.repository_owner }}
-          METRIC: ${{ inputs.metric }}
+        with:
+          fetch-depth: 0
+      - name: Restore exact pre-session files
         run: |
-          python3 - <<'PY'
-          import collections, datetime, html, io, json, math, os, pathlib, re, subprocess, tarfile, tempfile, urllib.request, urllib.error
-          owner = os.environ['PROFILE_OWNER']
-          token = os.environ['LANGUAGE_STATS_TOKEN']
-          metric = os.environ.get('METRIC') or ('lines' if pathlib.Path('profile/lines-languages.json').exists() else 'bytes')
-          if not token:
-              raise SystemExit('Missing LANGUAGE_STATS_TOKEN secret.')
-          def api(path, raw=False):
-              request = urllib.request.Request('https://api.github.com' + path, headers={'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'})
-              try:
-                  with urllib.request.urlopen(request, timeout=120) as response:
-                      return response.read() if raw else json.load(response)
-              except urllib.error.HTTPError as error:
-                  raise SystemExit('GitHub request failed (HTTP %s). For lines, grant Contents: Read-only to the existing token.' % error.code) from None
-          repositories = []
-          page = 1
-          while True:
-              batch = api('/user/repos?affiliation=owner&visibility=all&per_page=100&page=' + str(page))
-              repositories.extend(r for r in batch if r['owner']['login'].lower() == owner.lower())
-              if len(batch) < 100:
-                  break
-              page += 1
-          if not any(r['private'] for r in repositories):
-              raise SystemExit('No private repositories visible. Check token repository access.')
-          totals = collections.Counter()
-          for repository in repositories:
-              if metric == 'bytes':
-                  totals.update(api('/repos/' + repository['full_name'] + '/languages'))
-                  continue
-              if not repository['size']:
-                  continue
-              archive = api('/repos/' + repository['full_name'] + '/tarball/' + urllib.parse.quote(repository['default_branch'], safe=''), raw=True)
-              with tempfile.TemporaryDirectory() as temp:
-                  root = pathlib.Path(temp)
-                  with tarfile.open(fileobj=io.BytesIO(archive), mode='r:gz') as tar:
-                      tar.extractall(root, filter='data')
-                  files = [str(p) for p in root.rglob('*') if p.is_file() and not p.is_symlink()]
-                  listing = root / 'cloc-input.txt'
-                  listing.write_text('\n'.join(files), encoding='utf-8')
-                  result = subprocess.run(['cloc', '--json', '--quiet', '--skip-uniqueness', '--timeout=0', '--list-file=' + str(listing)], capture_output=True, text=True)
-                  if result.returncode != 0:
-                      raise SystemExit('Code-line counting failed; no partial report published.')
-                  data = json.loads(result.stdout or '{}')
-                  for language, counts in data.items():
-                      if language not in ('header', 'SUM'):
-                          totals[language] += counts['code']
-          rows = sorted(((n, v) for n, v in totals.items() if v > 0), key=lambda r: (-r[1], r[0]))
-          total = sum(v for n, v in rows)
-          if not total:
-              raise SystemExit('No language data found.')
-          stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
-          colors = {'Python':'#3572A5','Jupyter Notebook':'#DA5B0B','HTML':'#e34c26','JavaScript':'#f1e05a','Shell':'#89e051','TeX':'#3D6117','CSS':'#563d7c'}
-          palette = ['#6366f1','#06b6d4','#ec4899','#10b981','#f59e0b']
-          def color(i):
-              return colors.get(rows[i][0], palette[i % len(palette)])
-          def pct(v):
-              return f'{v/total*100:.2f}%' if v/total*100 >= .01 else '&lt;0.01%'
-          def text(x,y,value,size=14):
-              return f'<text x="{x}" y="{y}" font-size="{size}">{value}</text>'
-          def card(layout):
-              chart = layout in ('donut','donut-vertical','pie')
-              compact = layout in ('compact','names')
-              top = 340 if chart else (124 if compact else 90)
-              step = 30 if chart or compact else 52
-              height = top + len(rows)*step + 38
-              parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="640" height="{height}" viewBox="0 0 640 {height}" role="img" aria-label="All repository languages">', '<style>text{font-family:Arial,sans-serif;fill:#24292f}</style>', f'<rect x=".5" y=".5" width="639" height="{height-1}" rx="10" fill="white" stroke="#d0d7de"/>', text(24,34,'All Repository Languages',20), text(24,58,'Public + private · All owned repositories including forks · ' + metric,12)]
-              if chart:
-                  offset = 0
-                  if layout == 'pie':
-                      parts.append('<circle cx="320" cy="195" r="112" fill="#eaeef2"/>')
-                  for i,(name,value) in enumerate(rows):
-                      fraction = value/total
-                      if layout == 'pie':
-                          a,b = offset*2*math.pi-math.pi/2, (offset+fraction)*2*math.pi-math.pi/2
-                          x1,y1 = 320+112*math.cos(a),195+112*math.sin(a)
-                          x2,y2 = 320+112*math.cos(b),195+112*math.sin(b)
-                          if fraction == 1:
-                              parts.append(f'<circle cx="320" cy="195" r="112" fill="{color(i)}"/>')
-                          else:
-                              parts.append(f'<path d="M320 195 L{x1} {y1} A112 112 0 {int(fraction>.5)} 1 {x2} {y2} Z" fill="{color(i)}"/>')
-                      else:
-                          parts.append(f'<circle cx="320" cy="195" r="94" fill="none" stroke="{color(i)}" stroke-width="35" pathLength="100" stroke-dasharray="{fraction*100} {100-fraction*100}" stroke-dashoffset="{-offset*100}" transform="rotate(-90 320 195)"/>')
-                      offset += fraction
-              if layout == 'compact':
-                  x=24
-                  for i,(name,value) in enumerate(rows):
-                      width=588*value/total
-                      parts.append(f'<rect x="{x}" y="80" width="{width}" height="15" fill="{color(i)}"/>')
-                      x+=width
-              for i,(name,value) in enumerate(rows):
-                  y=top+i*step
-                  parts += [text(24,y,html.escape(name)), text(500,y,(f'{value:,} '+metric) if layout=='sizes' else pct(value),12)]
-                  if not chart and not compact:
-                      parts += [f'<rect x="24" y="{y+10}" width="588" height="9" rx="4" fill="#eaeef2"/>', f'<rect x="24" y="{y+10}" width="{max(1,588*value/total)}" height="9" rx="4" fill="{color(i)}"/>']
-              parts += [text(24,height-14,'Updated '+stamp,11),'</svg>']
-              return '\n'.join(parts)+'\n'
-          directory=pathlib.Path('profile')
-          directory.mkdir(exist_ok=True)
-          for layout in ('normal','compact','donut','donut-vertical','pie','names','sizes'):
-              (directory/f'{metric}-{layout}.svg').write_text(card(layout),encoding='utf-8')
-          (directory/'all-languages.svg').write_text(card('normal'),encoding='utf-8')
-          report={'updated_utc':stamp,'metric':metric,'scope':'All owned public and authorized private repositories including forks; no custom exclusions','languages':[{'language':n,metric:v,'percent':100*v/total} for n,v in rows]}
-          (directory/f'{metric}-languages.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
-          (directory/'all-languages.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
-          readme=pathlib.Path('README.md')
-          body=readme.read_text(encoding='utf-8')
-          layouts={'Language list':'normal','Compact languages':'compact','Donut languages':'donut','Vertical donut languages':'donut-vertical','Pie languages':'pie','Language names':'names','Language sizes':'sizes'}
-          for label,layout in layouts.items():
-              body=re.sub(r'!\['+re.escape(label)+r'\]\([^\n]*\)', '!['+label+'](./profile/'+metric+'-'+layout+'.svg)', body)
-          body=body.replace('Automatically generated from my public repositories. These cards compare different views of the same language statistics (up to 20 languages); percentages describe code size, not proficiency.', 'Automatically generated from all my owned public and authorized private repositories, including forks. All detected languages are shown, with no custom language or file exclusions. Current metric: '+metric+'.')
-          body=body.replace('Current metric: bytes.', 'Current metric: '+metric+'.').replace('Current metric: lines.', 'Current metric: '+metric+'.')
-          body=body.replace('### 7. Language sizes in bytes', '### 7. Language totals ('+metric+')')
-          body=re.sub(r'### 7\. Language totals \((bytes|lines)\)', '### 7. Language totals ('+metric+')',body)
-          body=body.replace('All detected languages in my own public and authorized private repositories, excluding forks. Updated daily; percentages are based on GitHub language bytes. Repository names and source code are not published.', 'All detected languages in my own public and authorized private repositories, including forks. No custom exclusions. Updated daily; the active metric is shown on the cards. Repository names and source code are not published.')
-          readme.write_text(body,encoding='utf-8')
-          print('Generated all seven language cards successfully. Metric: '+metric)
-          
-          PY
-      - name: Save cards
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add profile README.md
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Update all public and private language cards'
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git read-tree --reset -u da04ab11e9ca2cbdd1ce80002818f12d0fb97eb5
+          git diff --cached --stat
+          git commit -m "Restore original profile before language statistics setup"
+          git push origin HEAD:main
