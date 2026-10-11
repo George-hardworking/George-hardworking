@@ -78,3 +78,13 @@ These badges are manually specified examples, rather than an automatically calcu
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Jupyter Notebook](https://img.shields.io/badge/Jupyter_Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
+
+<!-- all-repository-languages -->
+## Languages Across Public & Private Repositories
+
+All detected languages in my own public and authorized private repositories, excluding forks. Updated daily; percentages are based on GitHub language bytes. Repository names and source code are not published.
+
+![All repository languages](./profile/all-languages.svg)
+
+[Detailed language totals](./profile/all-languages.json)

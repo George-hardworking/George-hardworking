@@ -1,0 +1,66 @@
+{
+  "updated_utc": "2026-10-11 12:45 UTC",
+  "scope": "Owned public and authorized private repositories; forks excluded",
+  "languages": [
+    {
+      "language": "HTML",
+      "bytes": 10384172502,
+      "percent": 99.2056194221066
+    },
+    {
+      "language": "Jupyter Notebook",
+      "bytes": 71239935,
+      "percent": 0.6805936513385563
+    },
+    {
+      "language": "Python",
+      "bytes": 9694000,
+      "percent": 0.09261202801597117
+    },
+    {
+      "language": "Shell",
+      "bytes": 622199,
+      "percent": 0.0059442037569124445
+    },
+    {
+      "language": "Swift",
+      "bytes": 615641,
+      "percent": 0.00588155163397777
+    },
+    {
+      "language": "JavaScript",
+      "bytes": 530855,
+      "percent": 0.005071545093090404
+    },
+    {
+      "language": "TeX",
+      "bytes": 431641,
+      "percent": 0.004123700060330288
+    },
+    {
+      "language": "MATLAB",
+      "bytes": 7936,
+      "percent": 7.58169026547088e-05
+    },
+    {
+      "language": "Makefile",
+      "bytes": 3323,
+      "percent": 3.174641727842709e-05
+    },
+    {
+      "language": "Jinja",
+      "bytes": 2998,
+      "percent": 2.8641516401060608e-05
+    },
+    {
+      "language": "CSS",
+      "bytes": 1686,
+      "percent": 1.610727039766117e-05
+    },
+    {
+      "language": "Perl",
+      "bytes": 166,
+      "percent": 1.5858878327471852e-06
+    }
+  ]
+}

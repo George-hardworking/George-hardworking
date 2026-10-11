@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="736" viewBox="0 0 640 736" role="img" aria-label="Languages across public and private repositories">
+<style>text{font-family:Arial,sans-serif;fill:#24292f}.muted{fill:#57606a}</style>
+<rect width="639" height="735" x="0.5" y="0.5" rx="10" fill="#ffffff" stroke="#d0d7de"/>
+<text x="24" y="34" font-size="20" font-weight="bold">All Repository Languages</text>
+<text x="24" y="58" font-size="12" class="muted">Public + authorized private repositories · Forks excluded · Code bytes</text>
+<text x="24" y="90" font-size="14">HTML</text>
+<text x="612" y="90" text-anchor="end" font-size="13">99.21%</text>
+<rect x="24" y="100" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="100" width="583.329" height="9" rx="4" fill="#e34c26"/>
+<text x="24" y="142" font-size="14">Jupyter Notebook</text>
+<text x="612" y="142" text-anchor="end" font-size="13">0.68%</text>
+<rect x="24" y="152" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="152" width="4.002" height="9" rx="4" fill="#DA5B0B"/>
+<text x="24" y="194" font-size="14">Python</text>
+<text x="612" y="194" text-anchor="end" font-size="13">0.09%</text>
+<rect x="24" y="204" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="204" width="1.000" height="9" rx="4" fill="#3572A5"/>
+<text x="24" y="246" font-size="14">Shell</text>
+<text x="612" y="246" text-anchor="end" font-size="13">&lt;0.01%</text>
+<rect x="24" y="256" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="256" width="1.000" height="9" rx="4" fill="#89e051"/>
+<text x="24" y="298" font-size="14">Swift</text>
+<text x="612" y="298" text-anchor="end" font-size="13">&lt;0.01%</text>
+<rect x="24" y="308" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="308" width="1.000" height="9" rx="4" fill="#f59e0b"/>
+<text x="24" y="350" font-size="14">JavaScript</text>
+<text x="612" y="350" text-anchor="end" font-size="13">&lt;0.01%</text>
+<rect x="24" y="360" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="360" width="1.000" height="9" rx="4" fill="#f1e05a"/>
+<text x="24" y="402" font-size="14">TeX</text>
+<text x="612" y="402" text-anchor="end" font-size="13">&lt;0.01%</text>
+<rect x="24" y="412" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="412" width="1.000" height="9" rx="4" fill="#3D6117"/>
+<text x="24" y="454" font-size="14">MATLAB</text>
+<text x="612" y="454" text-anchor="end" font-size="13">&lt;0.01%</text>
+<rect x="24" y="464" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="464" width="1.000" height="9" rx="4" fill="#ec4899"/>
+<text x="24" y="506" font-size="14">Makefile</text>
+<text x="612" y="506" text-anchor="end" font-size="13">&lt;0.01%</text>
+<rect x="24" y="516" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="516" width="1.000" height="9" rx="4" fill="#10b981"/>
+<text x="24" y="558" font-size="14">Jinja</text>
+<text x="612" y="558" text-anchor="end" font-size="13">&lt;0.01%</text>
+<rect x="24" y="568" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="568" width="1.000" height="9" rx="4" fill="#f59e0b"/>
+<text x="24" y="610" font-size="14">CSS</text>
+<text x="612" y="610" text-anchor="end" font-size="13">&lt;0.01%</text>
+<rect x="24" y="620" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="620" width="1.000" height="9" rx="4" fill="#563d7c"/>
+<text x="24" y="662" font-size="14">Perl</text>
+<text x="612" y="662" text-anchor="end" font-size="13">&lt;0.01%</text>
+<rect x="24" y="672" width="588" height="9" rx="4" fill="#eaeef2"/>
+<rect x="24" y="672" width="1.000" height="9" rx="4" fill="#06b6d4"/>
+<text x="24" y="718" font-size="11" class="muted">Updated 2026-10-11 12:45 UTC</text>
+</svg>
