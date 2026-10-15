@@ -6,8 +6,8 @@ I'm a master's student at the Hong Kong University of Science and Technology (Gu
 
 - Empirical Asset Pricing
 - Machine Learning for Finance
-- Market Microstructure
 - LLM Application in Finance
+- Market Microstructure
 
 I'm happy to connect with others who share similar research interests.
 
