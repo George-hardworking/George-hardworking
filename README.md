@@ -5,8 +5,7 @@ I'm a master's student at the Hong Kong University of Science and Technology (Gu
 🔎 My research interests include:
 
 - Empirical Asset Pricing
-- Machine Learning for Finance
-- AI Application in Finance
+- AI/ML 4 Finance
 - Financial Econometrics
 - Market Microstructure
 
